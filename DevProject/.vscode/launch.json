@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-DevProjectApplication<DevProject>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.zeus.DevProject.DevProjectApplication",
+            "projectName": "DevProject",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
