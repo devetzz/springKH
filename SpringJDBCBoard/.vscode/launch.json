@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringJdbcBoardApplication<SpringJDBCBoard>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.board.SpringJDBCBoard.SpringJdbcBoardApplication",
+            "projectName": "SpringJDBCBoard",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
