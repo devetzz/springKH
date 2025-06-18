@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.SpringJDBCMember.domain.Member;
 import com.kh.SpringJDBCMember.repository.MemberDAO;
@@ -15,6 +16,7 @@ public class MemberServiceImpl implements MemberService {
     private MemberDAO memberDAO;
     
     @Override
+    @Transactional
     public void insert(Member member) throws Exception {
         memberDAO.insert(member);
     }
@@ -25,11 +27,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
     public void update(Member member) throws Exception {
         memberDAO.update(member);
     }
 
     @Override
+    @Transactional
     public void delete(Member member) throws Exception {
         memberDAO.delete(member);
     }
