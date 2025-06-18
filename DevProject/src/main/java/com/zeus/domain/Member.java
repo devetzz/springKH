@@ -29,4 +29,6 @@ public class Member{
 
     private Board board;
     private List<MultipartFile> picture;
+
+    private String gender;
 }

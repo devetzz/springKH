@@ -30,7 +30,9 @@
 <%-- footer 영역 --%>
 <%@ include file="./footer.jsp" %>
 <script>
-    $(document).ready(function() { var formObj = ("#board"); console.log(formObj);
+    $(document).ready(function() { 
+        var formObj = $("#board"); 
+        console.log(formObj);
         $("#btnModify").on("click", function() {
             var boardNo = $("#boardNo");
             var boardNoVal = boardNo.val();

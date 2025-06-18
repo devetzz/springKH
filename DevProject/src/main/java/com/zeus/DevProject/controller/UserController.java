@@ -1,15 +1,20 @@
 package com.zeus.DevProject.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.zeus.domain.CheckBoxLabelValue;
+import com.zeus.domain.CodeLabelValue;
 import com.zeus.domain.User;
 
 import lombok.extern.slf4j.Slf4j;
@@ -38,28 +43,63 @@ public class UserController {
         return "user/registerForm";
     }
 
-    @PostMapping(value = "/register")
-    public String register(User user) {
-        log.info("register");
-        log.info("userId = " + user.getUserId());
-        log.info("userName = " + user.getUserName());
-        log.info("userPassword = " + user.getUserPassword());
-        log.info("userIntroduction = " + user.getUserIntroduction());
+    // @PostMapping(value = "/register")
+    // public String register(User user) {
+    //     log.info("register");
+    //     // log.info("userId = " + user.getUserId());
+    //     // log.info("userName = " + user.getUserName());
+    //     // log.info("userPassword = " + user.getUserPassword());
+    //     // log.info("userIntroduction = " + user.getUserIntroduction());
+    //     log.info("gender = " + user.getGender());
         
-        List<String> cbList = user.getCbList();
-        if (cbList != null) {
-            log.info("hobbyList != null = " + cbList.size());
+    //     // List<String> cbList = user.getCbList();
+    //     // if (cbList != null) {
+    //     //     log.info("hobbyList != null = " + cbList.size());
 
-            for (int i = 0; i < cbList.size(); i++) {
-                log.info("checkBoxList(" + i + ") = " + cbList.get(i));
-            }
-        } else {
-            log.info("checkBoxList == null");
-        }
+    //     //     for (int i = 0; i < cbList.size(); i++) {
+    //     //         log.info("checkBoxList(" + i + ") = " + cbList.get(i));
+    //     //     }
+    //     // } else {
+    //     //     log.info("checkBoxList == null");
+    //     // }
 
-        return "user/resultForm";
+    //     return "user/resultForm";
+    // }
+
+    @GetMapping("/radiobuttons01")
+    public String registerSpringFormRadiobuttons01(Model model) { 
+        log.info("radiobuttons01");
+
+        Map<String, String> nationalityCodeMap = new HashMap<String, String>(); 
+        nationalityCodeMap.put("01", "Korea");
+        nationalityCodeMap.put("02", "Germany"); 
+        nationalityCodeMap.put("03", "Australia");
+        model.addAttribute("nationalityCodeMap", nationalityCodeMap);
+        model.addAttribute("user", new User());
+
+        return "user/radiobuttons01";      // 뷰 파일명
     }
 
-    
+    @GetMapping("/registerSpringFormErrors")
+    public String registerSpringFormErrors(Model model) {
+        log.info("registerSpringFormErrors");
+        User user = new User();
+        user.setEmail("aaa@ccc.com"); 
+        user.setUserName("홍길동");
+        model.addAttribute("user", user);
+        return "user/registerSpringFormErrors"; // 뷰 파일명
+    }
 
+    // 입력 처리
+    @PostMapping("/register")
+    public String register(@Validated User user, BindingResult result) {
+        log.info("register");
+        // 에러 처리
+        if(result.hasErrors()) {
+            return "user/registerSpringFormErrors";
+        }
+        
+        return "user/resultForm";
+    }
+    
 }

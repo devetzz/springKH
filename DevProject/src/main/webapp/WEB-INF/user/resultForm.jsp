@@ -33,6 +33,10 @@ pageEncoding="UTF-8"%>
                     <td>암호</td> 
                     <td>${user.userPassword} </td> 
                 </tr> 
+                <tr> 
+                    <td>Email</td> 
+                    <td>${user.email} </td> 
+                </tr> 
                 <tr>
                     <td>소개</td>
                     <td>${user.userIntroduction}</td>
@@ -44,6 +48,14 @@ pageEncoding="UTF-8"%>
                             <c:out value="${hobby}" /><br>
                         </c:forEach>
                     </td>
+                </tr>
+                <tr>
+                    <td>성별</td>
+                    <td>${user.gender}</td>
+                </tr>
+                <tr>
+                    <td>국적</td>
+                    <td>${user.nationality}</td>
                 </tr>
             </table>
         </main>
