@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,23 +26,54 @@ import lombok.extern.java.Log;
 @Log
 @Controller
 public class HomeController {
+    @Autowired
+    private MessageSource messageSource;
+
+    // @RequestMapping(value = "/", method = RequestMethod.GET) 
+    // public String home(Locale locale, Model model) {
+    //     log.info("환영합니다. 클라이언트 지역은 " + locale + "이다.");
+    //     Date date = new Date();
+    //     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+    //     String formattedDate = dateFormat.format(date); 
+    //     model.addAttribute("serverTime", formattedDate );
+    //     return "home"; // 뷰 파일명
+    // }
+
+    @GetMapping("/")
+        public String home2(Locale locale, Model model) {
+        log.info("환영합니다. 클라이언트 지역은 " + locale + "이다."); 
+        Date date = new Date();
+        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG,DateFormat.LONG, locale);
+        String formattedDate = dateFormat.format(date);
+
+        String[] args = {"Lee","HI!"}; 
+        // 스프링 프레임워크로부터 MessageSource를 주입 받은 다음 getMessage 메서드를 호출한다. 
+        String message = messageSource.getMessage("welcome.message", args, Locale.KOREAN); 
+        String message2 = messageSource.getMessage("welcome.message", args, Locale.ENGLISH);
+        log.info("Welcome message : " + message); 
+        log.info("Welcome message2 : " + message2);
+
+        model.addAttribute("serverTime", formattedDate );
+
+        return "home"; // 뷰 파일명
+    }
 
     // http://127.0.0.1:8080/home get방식
     // Model, (Request, Response, Section, Application : 생명주기)
-    @GetMapping(value = "/home")
-    public String home(Locale locale, Model model){
-        log.info("여기는 Home Controller home() 입니다." + locale.toString());
-        log.info("여기는 Home Controller home() 입니다." + model.toString());
-        // DB 연동하지 않는다.
-        // view를 불러준다. (~ : view Resolver)
-        Date date = new Date();
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-        String formatDate = df.format(date);
-        // 모델(Request)
-        model.addAttribute("serverTime", formatDate);
+    // @GetMapping(value = "/home")
+    // public String home(Locale locale, Model model){
+    //     log.info("여기는 Home Controller home() 입니다." + locale.toString());
+    //     log.info("여기는 Home Controller home() 입니다." + model.toString());
+    //     // DB 연동하지 않는다.
+    //     // view를 불러준다. (~ : view Resolver)
+    //     Date date = new Date();
+    //     DateFormat df = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+    //     String formatDate = df.format(date);
+    //     // 모델(Request)
+    //     model.addAttribute("serverTime", formatDate);
 
-        return "views/home01";
-    }
+    //     return "views/home01";
+    // }
 
     @RequestMapping(value = "/sub", method = RequestMethod.GET)
     public String sub(Model model){
