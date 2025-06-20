@@ -23,12 +23,12 @@
             </c:when>
             <c:otherwise>
                 <c:forEach var="member" items="${list}">
-                <tr>
-                    <td align="center">${member.no}</td>
-                    <td align="left"><a href="/member/read?no=${member.no}">${member.id}</a></td>
-                    <td align="left">${member.pwd}</td>
-                    <td align="left">${member.name}</td>
-                    <td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${member.regDate}" /></td>
+                    <tr>
+                        <td align="center">${member.no}</td>
+                        <td align="left"><a href="/member/read?no=${member.no}">${member.id}</a></td>
+                        <td align="left">${member.pwd}</td>
+                        <td align="left">${member.name}</td>
+                        <td align="center"><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${member.regDate}" /></td>
                     </tr>
                 </c:forEach>
             </c:otherwise>
