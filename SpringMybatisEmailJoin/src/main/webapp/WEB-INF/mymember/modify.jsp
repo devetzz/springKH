@@ -78,10 +78,45 @@
                     </font>
                 </td>
             </tr>
+            <tr>
+                <td>Email - 1</td>
+                <td>
+                    <form:input path="emailList[0].email" />
+                </td>
+                <td>
+                    <font color="red">
+                        <form:errors path="emailList[0].email" />
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td>Email - 2</td>
+                <td>
+                    <form:input path="emailList[1].email" />
+                </td>
+                <td>
+                    <font color="red">
+                        <form:errors path="emailList[1].email" />
+                    </font>
+                </td>
+            </tr>
+            <tr>
+                <td>Email - 3</td>
+                <td>
+                    <form:input path="emailList[2].email" />
+                </td>
+                <td>
+                    <font color="red">
+                        <form:errors path="emailList[2].email" />
+                    </font>
+                </td>
+            </tr>
         </table>
     </form:form>
-    <div> <button type="submit" id="btnModify">Modify</button> <button type="submit"
-            id="btnList">List</button> </div>
+    <div> 
+        <button type="submit" id="btnModify">수정</button> 
+        <button type="submit" id="btnList">목록</button> 
+    </div>
 </main>
 <%-- footer 영역 --%>
 <%@ include file="./footer.jsp" %>

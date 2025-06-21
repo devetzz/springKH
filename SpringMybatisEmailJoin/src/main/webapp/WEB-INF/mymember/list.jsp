@@ -4,7 +4,7 @@
 <!-- 화면 영역 -->
 <main>
     <h3>회원 목록</h3>
-    <a href="register">New</a>
+    <a href="register">등록</a>
     <table border="1">
         <tr>
             <th align="center" width="60">NO</th>

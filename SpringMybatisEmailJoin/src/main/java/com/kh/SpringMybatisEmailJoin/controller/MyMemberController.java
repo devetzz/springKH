@@ -13,7 +13,7 @@ import com.kh.SpringMybatisEmailJoin.service.MyMemberDAOService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@MapperScan(basePackages = "com.kh.SpringMybatisProject.mapper")
+@MapperScan(basePackages = "com.kh.SpringMybatisEmailJoin.mapper")
 @Controller
 @RequestMapping("/mymember")
 public class MyMemberController {

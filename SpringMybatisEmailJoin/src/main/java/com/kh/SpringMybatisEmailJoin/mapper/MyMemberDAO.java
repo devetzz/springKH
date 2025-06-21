@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.SpringMybatisEmailJoin.domain.MyMember;
 import com.kh.SpringMybatisEmailJoin.domain.MyMemberAuth;
+import com.kh.SpringMybatisEmailJoin.domain.MyMemberEmail;
 
 public interface MyMemberDAO {
 
@@ -12,6 +13,9 @@ public interface MyMemberDAO {
 
     // 회원 권한 삽입
     public void insertAuth(MyMemberAuth memberAuth) throws Exception;
+
+    // 회원 메일 삽입
+    public void insertEmail(MyMemberEmail memberEmail) throws Exception;
 
     // 회원 정보 출력
     public List<MyMember> selectAll() throws Exception;
@@ -27,4 +31,7 @@ public interface MyMemberDAO {
 
     // 회원 권한 삭제
     public void deleteAuth(MyMember member) throws Exception;
+
+    // 회원 메일 삭제
+    public void deleteEmail(MyMember member) throws Exception;
 }

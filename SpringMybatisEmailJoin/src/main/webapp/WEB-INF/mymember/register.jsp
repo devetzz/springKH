@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <td>pw</td>
-            <td><form:input path="pw" /></td>
+            <td><form:password path="pw" /></td>
             <td><font color="red"><form:errors path="pw" /></font></td>
         </tr>
         <tr>
@@ -27,6 +27,7 @@
 
     <div>
         <button type="submit" id="btnRegister">등록</button>
+        <button type="submit" id="btnList">목록</button>
     </div>
 </main>
 
@@ -38,6 +39,9 @@
             formObj.attr("action", "/mymember/register");
             formObj.attr("method", "post");
             formObj.submit();
+        });
+        $("#btnList").on("click", function() { 
+            self.location = "/mymember/list";
         });
     });
 </script>

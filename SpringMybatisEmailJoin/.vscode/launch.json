@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringMybatisEmailJoinApplication<SpringMybatisEmailJoin>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.kh.SpringMybatisEmailJoin.SpringMybatisEmailJoinApplication",
+            "projectName": "SpringMybatisEmailJoin",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
