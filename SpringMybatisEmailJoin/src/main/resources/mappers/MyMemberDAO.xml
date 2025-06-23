@@ -11,8 +11,8 @@
         <result property="name" column="NAME" />
         <result property="regDate" column="REG_DATE" />
         <result property="updDate" column="UDP_DATE" />
-        <collection property="authList" resultMap="authMap">
-        </collection>
+        <collection property="authList" resultMap="authMap"></collection>
+        <collection property="emailList" resultMap="emailMap"></collection>
     </resultMap>
     <resultMap type="MyMemberAuth" id="authMap">
         <result property="no" column="NO" />
@@ -20,7 +20,7 @@
     </resultMap>
     <resultMap type="MyMemberEmail" id="emailMap">
         <result property="no" column="NO" />
-        <result property="email" column="Email" />
+        <result property="email" column="EMAIL" />
     </resultMap>
     <!-- 데이터베이스에서 기본키를 인수로 전달한 자바빈의 프로퍼티를 통해 취득한다. -->
     <!-- <insert id="insert" useGeneratedKeys="true" keyProperty="no"> -->
