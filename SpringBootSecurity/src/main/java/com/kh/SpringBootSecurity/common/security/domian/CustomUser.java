@@ -22,7 +22,8 @@ public class CustomUser extends User {
     public CustomUser(Member member) {
         // 사용자가 정의한 Member 타입을 스프링 시큐리티 UsersDetails 타입으로 변환한다.
         // private List<MemberAuth> authList => ['ROLE_MEMBER', 'ROLE_ADMIN']
-        super(member.getId(), member.getPw(), member.getAuthList().stream().map(auth -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
+        super(member.getId(), member.getPw(), member.getAuthList().stream().map(auth 
+            -> new SimpleGrantedAuthority(auth.getAuth())).collect(Collectors.toList()));
         this.member = member;
     }
     

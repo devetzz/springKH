@@ -36,6 +36,12 @@ public class MemberDAOServiceImpl implements MemberDAOService{
         mmd.insertAuth(memberAuth);
     }
 
+    // 회원정보 검색(id)
+    @Override
+    public Member selectOne(Member member) throws Exception {
+        return mmd.selectOne(member);
+    }
+
     // 회원 정보 출력
     @Override
     public List<Member> selectAll() throws Exception {

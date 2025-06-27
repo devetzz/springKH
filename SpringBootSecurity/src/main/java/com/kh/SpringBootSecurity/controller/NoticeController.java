@@ -1,5 +1,6 @@
 package com.kh.SpringBootSecurity.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +16,7 @@ public class NoticeController {
         return "notice/list";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping("/register")
     public String registerForm() {
         log.info("registerForm : 로그인한 관리자만 접근 가능");

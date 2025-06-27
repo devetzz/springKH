@@ -1,5 +1,6 @@
 package com.kh.SpringBootSecurity.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +16,8 @@ public class BoardController {
         return "board/list";
     }
 
+    // @Secured({"ROLE_MEMBER", "ROLE_ADMIN"})
+    @PreAuthorize("hasRole('ROLE_MEMBER')")
     @RequestMapping("/register")
     public String registerForm() {
         log.info("registerForm : 로그인한 회원만 접근 가능");
