@@ -12,4 +12,20 @@
         SELECT GROUP_CODE, GROUP_NAME, USE_YN, REG_DATE FROM
         CODE_GROUP ORDER BY GROUP_CODE DESC, REG_DATE DESC 
     </select>
+    <!-- 상세 조회 -->
+    <select id="read" resultType="CodeGroup"> SELECT group_code,
+        group_name, use_yn, reg_date
+        FROM code_group
+        WHERE group_code = #{groupCode}
+    </select>
+    <!-- 수정 처리 -->
+    <update id="update">
+        UPDATE code_group
+        SET group_name =#{groupName} WHERE group_code = #{groupCode}
+    </update>
+    <!-- 삭제 처리 -->
+    <delete id="delete">
+        DELETE FROM code_group
+        WHERE group_code = #{groupCode}
+    </delete>
 </mapper>
