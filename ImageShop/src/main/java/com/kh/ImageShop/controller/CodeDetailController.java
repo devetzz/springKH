@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.kh.ImageShop.common.CodeLabelValue;
 import com.kh.ImageShop.domain.CodeDetail;
+import com.kh.ImageShop.domain.CodeLabelValue;
 import com.kh.ImageShop.service.CodeDetailService;
 import com.kh.ImageShop.service.CodeService;
 

@@ -1,4 +1,4 @@
-package com.kh.ImageShop.common;
+package com.kh.ImageShop.domain;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
