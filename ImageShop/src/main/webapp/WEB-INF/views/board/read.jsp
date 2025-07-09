@@ -20,6 +20,9 @@
         <h2><spring:message code="board.header.read" /></h2>
         <form:form modelAttribute="board">
         <form:hidden path="boardNo" />
+        <!-- 현재 페이지 번호와 페이징 크기를 숨겨진 필드 요소를 사용하여 전달한다. -->
+        <input type="hidden" id="page" name="page" value="${pgrq.page}">
+        <input type="hidden" id="sizePerPage" name="sizePerPage" value="${pgrq.sizePerPage}">
             <table>
                 <tr>
                     <td><spring:message code="board.title" /></td>
@@ -59,17 +62,20 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        var formObj = $("#board");
-        $("#btnEdit").on("click", function() { 
-            var boardNo = $("#boardNo");
-            var boardNoVal = boardNo.val();
-            self.location = "/board/modify?boardNo=" + boardNoVal;
+        let formObj = $("#board");
+        $("#btnEdit").on( "click", function() {
+            // 현재 페이지 번호와 페이징 크기
+            let page = $("#page").val();
+            let sizePerPage = $("#sizePerPage").val();
+            let boardNo = $("#boardNo").val();
+            //let boardNoVal = boardNo.val();
+            self.location = "/board/modify?page=" + page+ "&sizePerPage=" + sizePerPage+ "&boardNo=" + boardNo;
         });
-        $("#btnRemove").on("click", function() { 
+        $("#btnRemove").on("click", function() {
             formObj.attr("action", "/board/remove");
             formObj.submit();
         });
-        $("#btnList").on("click", function() { 
+        $("#btnList").on("click", function() {
             self.location = "/board/list";
         });
     });
