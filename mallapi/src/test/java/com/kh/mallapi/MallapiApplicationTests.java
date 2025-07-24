@@ -1,26 +1,29 @@
 package com.kh.mallapi;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 
+import com.kh.mallapi.domain.Product;
 import com.kh.mallapi.domain.Todo;
 import com.kh.mallapi.dto.PageRequestDTO;
 import com.kh.mallapi.dto.PageResponseDTO;
-import com.kh.mallapi.dto.TodoDTO;
+import com.kh.mallapi.dto.ProductDTO;
+import com.kh.mallapi.repository.ProductRepository;
 import com.kh.mallapi.repository.TodoRepository;
-import com.kh.mallapi.service.TodoService;
+import com.kh.mallapi.service.ProductService;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 
 @SpringBootTest
@@ -28,89 +31,114 @@ import lombok.extern.log4j.Log4j2;
 class MallapiApplicationTests {
 
 	@Autowired
+	private ProductRepository productRepository;
+	@Autowired
 	private TodoRepository todoRepository;
 	@Autowired
-	private TodoService todoService;
+	ProductService productService;
 
 //	@Test
-	void contextLoads() {
-		// TODO 테이블에 insert = jpa.save(entity) 기능
+	public void testInsert() {
 		for (int i = 1; i <= 100; i++) {
-			Todo todo = Todo.builder().title("Title" + i).dueDate(LocalDate.of(2025, 7, 15)).writer("kdj00").build();
+			Todo todo = Todo.builder().title("Title..." + i).dueDate(LocalDate.of(2023, 12, 31)).writer("user00")
+					.build();
 			todoRepository.save(todo);
 		}
 	}
 
 //	@Test
-	void testRead() {
-		// TODO , get select * from todo where tno = ? === findById(id)
-		Long tno = 20L;
-		Optional<Todo> result = todoRepository.findById(tno);
-		Todo todo = result.orElseThrow();
-		log.info(todo);
+	public void productInsert() {
+		for (int i = 0; i < 10; i++) {
+			Product product = Product.builder().pname("상품" + i).price(100 * i).pdesc("상품설명" + i).build();
+			product.addImageString(UUID.randomUUID().toString() + "_" + "image1.jpg");
+			product.addImageString(UUID.randomUUID().toString() + "_" + "image2.jpg");
+			productRepository.save(product);
+		}
 	}
 
-	// 수정을 하기 위해서는 findById(id) => Todo(정보가 이미 들어있음) => Todo setter 수정한다. =>
-	// save(Entity)
-	// save(Entity) 해당되는 Tno가 있으면, update를 하고, Tno가 없으면 insert
+	// select (Lazy방식)
+//	@Transactional
 //	@Test
-	void testModify() {
-		Long tno = 20L;
-		Optional<Todo> result = todoRepository.findById(tno);
-		Todo todo = result.orElseThrow();
-		todo.changeComplete(true);
-		todo.changeWriter("lee00");
-		todo.changeDueDate(LocalDate.of(2024, 7, 7));
-		todoRepository.save(todo);
+	public void testRead() {
+		Long pno = 1L;
+		Optional<Product> result = productRepository.findById(pno);
+
+		Product product = result.orElseThrow();
+
+		log.info(product); // ---------------- 1
+		log.info(product.getImageList()); // --------------------------------- 2
 	}
 
-	// 삭제하기
+	// select (eager 방식)
 //	@Test
-	void testDelete() {
-		Long tno = 20L;
-		todoRepository.deleteById(tno);
+	public void testRead2() {
+		Long pno = 1L;
+		Optional<Product> result = productRepository.selectOne(pno);
+
+		Product product = result.orElseThrow();
+
+		log.info(product); // ---------------- 1
+		log.info(product.getImageList()); // --------------------------------- 2
 	}
 
-	// paging 처리방식
+//	@Commit
+//	@Transactional
 //	@Test
-	void testPaging() {
-		// 1페이지 , 10개만 가져와라, tno 내림차순으로 가져와라(리액트)
-		Pageable pageable = PageRequest.of(1, 10, Sort.by("tno").descending());
-		Page<Todo> result = todoRepository.findAll(pageable);
-		// 전체 데이터 개수(전체 Todo 엔티티 수)를 로그로 출력
-		log.info("전체갯수 : " + result.getTotalElements());
-		// 현재 페이지(0페이지)에 포함된 Todo 목록을 가져온다.
-		result.getContent().stream().forEach(todo -> log.info(todo));
-	}
-
-	// TodoDTO 값을 서비스를 이용해서 다형성 처리, 저장한다 (controller에서 받은 값을 서비스에 저장)
-//	@Test
-	void testRegister() {
-		TodoDTO todoDTO = TodoDTO.builder().title("입력 테스트").writer("kdj").dueDate(LocalDate.of(2025, 7, 16)).build();
-		Long tno = todoService.register(todoDTO);
-		log.info("TNO: " + tno);
+	public void testDelete() {
+		Long pno = 2L;
+		productRepository.updateToDelete(pno, true);
 	}
 
 //	@Test
-	void testGet() {
-		Long tno = 101L;
-		TodoDTO todoDTO = TodoDTO.builder().tno(tno).build();
-		TodoDTO _todoDTO = todoService.get(todoDTO);
-		log.info(_todoDTO);
+	public void testUpdate() {
+		Long pno = 10L;
+		Product product = productRepository.selectOne(pno).get();
+		product.changeName("10번 상품");
+		product.changeDesc("10번 상품 설명입니다.*");
+		product.changePrice(55000);
+
+		// 첨부파일 수정
+		product.clearList();
+
+		product.addImageString(UUID.randomUUID().toString() + "-" + "NEWIMAGE1.jpg");
+		product.addImageString(UUID.randomUUID().toString() + "-" + "NEWIMAGE2.jpg");
+		product.addImageString(UUID.randomUUID().toString() + "-" + "NEWIMAGE3.jpg");
+		productRepository.save(product);
 	}
 
-	// number 리스트
+	// join을 통해 Object[0] : product , Object[1] : productImage 가져온다
 //	@Test
-	void testNumber() {
-		List<Integer> listInteger = IntStream.rangeClosed(1, 10).boxed().collect(Collectors.toList());
-		log.info(listInteger.toString());
+	public void testList() {
+		// org.springframework.data.domain 패키지
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("pno").descending());
+		Page<Object[]> result = productRepository.selectList(pageable);
+		// java.util
+		result.getContent().forEach(arr -> log.info(Arrays.toString(arr)));
+	}
+
+//	@Test
+	public void testList2() {
+		// 1 page, 10 size
+		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+		PageResponseDTO<ProductDTO> result = productService.getList(pageRequestDTO);
+		result.getDtoList().forEach(dto -> log.info(dto));
+	}
+
+//	@Test
+	public void testRegister() {
+		ProductDTO productDTO = ProductDTO.builder().pname("새로운 상품").pdesc("신규 추가 상품입니다.").price(1000).build();
+		// uuid가 있어야함
+		productDTO.setUploadFileNames(
+				java.util.List.of(UUID.randomUUID() + "_" + "Test1.jpg", UUID.randomUUID() + "_" + "Test2.jpg"));
+		productService.register(productDTO);
 	}
 
 	@Test
-	public void testList() {
-		PageRequestDTO pageRequestDTO = PageRequestDTO.builder().page(2).size(10).build();
-		PageResponseDTO<TodoDTO> response = todoService.list(pageRequestDTO);
-		log.info(response);
+	public void testRead3() {
+		// 실제 존재하는 번호로 테스트(DB에서 확인)
+		Long pno = 9L;
+		ProductDTO productDTO = productService.get(pno);
+		log.info(productDTO);
+		log.info(productDTO.getUploadFileNames());
 	}
-
 }
