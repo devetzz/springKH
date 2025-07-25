@@ -30,6 +30,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		String accessToken = JWTUtil.generateToken(claims, 10); // 10 분
 		String refreshToken = JWTUtil.generateToken(claims, 60 * 24); // 24 시간
+		
 		claims.put("accessToken", accessToken); // 나중에 구현
 		claims.put("refreshToken", refreshToken); // 나중에 구현
 		
