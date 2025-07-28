@@ -4,9 +4,12 @@ import java.util.stream.Collectors;
 
 import com.kh.mallapi.domain.Member;
 import com.kh.mallapi.dto.MemberDTO;
+import com.kh.mallapi.dto.MemberModifyDTO;
 
 public interface MemberService {
 	MemberDTO getKakaoMember(String accessToken);
+	
+	void modifyMember(MemberModifyDTO memberModifyDTO);
 
 	default MemberDTO entityToDTO(Member member) {
 		MemberDTO dto = new MemberDTO(member.getEmail(), member.getPw(), member.getNickname(), member.isSocial(),

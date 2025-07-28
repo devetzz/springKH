@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.kh.mallapi.domain.Member;
 import com.kh.mallapi.domain.MemberRole;
 import com.kh.mallapi.dto.MemberDTO;
+import com.kh.mallapi.dto.MemberModifyDTO;
 import com.kh.mallapi.repository.MemberRepository;
 
 import jakarta.transaction.Transactional;
@@ -96,6 +97,16 @@ public class MemberServiceImpl implements MemberService {
 		LinkedHashMap<String, String> kakaoAccount = bodyMap.get("kakao_account");
 		log.info("kakaoAccount: " + kakaoAccount);
 		return kakaoAccount.get("email");
+	}
+
+	@Override
+	public void modifyMember(MemberModifyDTO memberModifyDTO) {
+		Optional<Member> result = memberRepository.findById(memberModifyDTO.getEmail());
+		Member member = result.orElseThrow();
+		member.changePw(passwordEncoder.encode(memberModifyDTO.getPw()));
+		member.changeSocial(false);
+		member.changeNickname(memberModifyDTO.getNickname());
+		memberRepository.save(member);
 	}
 
 }
